@@ -53,6 +53,34 @@ app.delete('/places/:id', async (request, response) => {
     }
 })
 
+app.put('/places/:id', async (request, response) => { // em 1 async posso ter vários "await" //
+    console.log(request.params.id)
+    console.log(request.body)
+
+    try {
+        const placeInDataBase = await Place.findByPk (request.params.id)
+
+        if (!placeInDataBase) {
+            return response.status(404).json({message: "Instituição não encontrada"})
+        }
+
+        placeInDataBase.name = request.body.name // como se eu dissesse ao "lugar" que está no BD: seu nome, a partir de agora, será o que recebi no body da requisição //
+        placeInDataBase.contact = request.body.contact
+        placeInDataBase.opening_hours = request.body.opening_hours
+        placeInDataBase.description = request.body.description
+        placeInDataBase.latitude = request.body.latitude
+        placeInDataBase.longitude = request.body.longitude
+
+        await placeInDataBase.save() // final do processo, como se fosse um "ok" para atualizar os dados; equivalente ao UPDATE no sql // 
+
+        response.json(placeInDataBase)
+
+    } catch (error) {
+        response.status(500).json ({message: "Não foi possível atualizar os dados"})
+    }
+
+})
+
 app.listen (8888, () => {  //subi em porta diferente para não dar conflito//
     console.log ("Servidor online")
 })
