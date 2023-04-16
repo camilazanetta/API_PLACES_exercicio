@@ -27,6 +27,16 @@ app.post('/places', async (request, response) => {
     } catch (error) {
         response.status(500).json({message: 'Não foi possível concluir a operação'})
     }
+})
+
+app.get('/places', async (request, response) => {
+
+    try{
+        const places = await Place.findAll()
+        return response.json(places)
+    } catch (error) {
+        response.status(500).json({message: 'Não conseguimos processar esta operação'})
+    }
 
 })
 
