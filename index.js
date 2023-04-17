@@ -1,6 +1,8 @@
 const express = require('express')
 const connection = require('./src/database')
+
 const Place = require('./src/models/place')
+const User = require('./src/models/user') // após criar user.js e exportar, venho aqui e add esta linha, importando // após, no BD aparece "user" e colunas criadas //
 
 const app = express()
 
