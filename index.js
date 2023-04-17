@@ -83,6 +83,26 @@ app.put('/places/:id', async (request, response) => { // em 1 async posso ter v�
 
 })
 
+app.post('/users', async (request, response) => {
+    try {
+        const newUser = {
+            name: request.body.name,
+            email: request.body.email,
+            username: request.body.username,
+            password: request.body.password
+        }
+
+        const user = await User.create (newUser) // pra criar novo usuário, assim como outras vezes, tbm uso variável que faz conexão com a tabela do BD - linha 5 //
+
+        response.status(201).json(user)
+
+    } catch (error) {
+        response.status(500).json({message: 'Não foi possível cadastrar o usuário'})
+    }
+
+})
+
+
 app.listen (8888, () => {  //subi em porta diferente para não dar conflito//
     console.log ("Servidor online")
 })
